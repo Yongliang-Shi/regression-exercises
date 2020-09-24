@@ -50,6 +50,14 @@ def get_iris_data():
 
 # In[ ]:
 
+###################### Acquire Mall Customers Data ###########################
 
-
-
+def get_mall_data():
+    filename = 'mall_customers.csv'
+    
+    if os.path.isfile(filename):
+        return pd.read_csv(filename, index_col=0)
+    else: 
+        df = pd.read_sql("""select * from customers""", get_connection('mall_customers'))
+        df.to_csv(filename)
+        return df
