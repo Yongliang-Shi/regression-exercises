@@ -25,7 +25,7 @@ def get_telco_data():
         df.to_csv(filename)
         return df
     
-def prep_telco():
+def wrangle_telco():
     df = get_telco_data()
     boolean = df.total_charges.str.isspace()
     df = df[-boolean]
