@@ -60,3 +60,13 @@ def prep_iris(iris):
     train_validate, test = train_test_split(iris, test_size=.2, random_state=123, stratify=iris.species)
     train, validate = train_test_split(train_validate, test_size=.3, random_state=123, stratify=train_validate.species)
     return train, validate, test
+
+def prep_mall(df):
+    '''
+    Takes the acquired mall data, does data prep, and returns
+    train, test, and validate data splits.
+    '''
+    df['is_female'] = (df.gender == 'Female').astype('int')
+    train_validate, test = train_test_split(df, test_size=.15, random_state=442)
+    train, validate = train_test_split(train_validate, test_size=.15, random_state=442)
+    return train, validate, test
