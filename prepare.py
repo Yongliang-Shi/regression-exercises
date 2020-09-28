@@ -13,6 +13,8 @@ from pydataset import data
 import warnings
 warnings.filterwarnings("ignore")
 
+import sklearn.preprocessing
+
 def cleaning(titanic):
     drop_index = titanic[titanic.embarked.isnull()].index
     titanic.drop(index=drop_index, inplace=True)
@@ -69,4 +71,25 @@ def prep_mall(df):
     df['is_female'] = (df.gender == 'Female').astype('int')
     train_validate, test = train_test_split(df, test_size=.15, random_state=442)
     train, validate = train_test_split(train_validate, test_size=.15, random_state=442)
+    return train, validate, test
+
+# %% Scale telco data from `train, validate, test` that is wrangled from wrangle.py
+def scale_telco(train, validate, test, columns_to_scale):
+    new_column_names = [c + '_scaled' for c in columns_to_scale]
+    scaler = sklearn.preprocessing.MinMaxScaler()
+    scaler.fit(train[columns_to_scale])
+
+    train = pd.concat([
+        train,
+        pd.DataFrame(scaler.transform(train[columns_to_scale]), columns=new_column_names, index=train.index),
+    ], axis=1)
+    validate = pd.concat([
+        validate,
+        pd.DataFrame(scaler.transform(validate[columns_to_scale]), columns=new_column_names, index=validate.index),
+    ], axis=1)
+    test = pd.concat([
+        test,
+        pd.DataFrame(scaler.transform(test[columns_to_scale]), columns=new_column_names, index=test.index),
+    ], axis=1)
+    
     return train, validate, test
