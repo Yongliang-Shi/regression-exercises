@@ -1,3 +1,10 @@
+import warnings
+warnings.filterwarnings("ignore")
+
+import numpy as np
+import pandas as pd
+
+from statsmodels.formula.api import ols
 # %%
 def evaluate_slr(target, feature, df):
     '''
