@@ -29,18 +29,35 @@ def evaluate_slr(target, feature, df):
     return evaluate
 
 # %%
-def plot_residuals(actual, predicted):
+def plot_residuals(actual, predicted, feature):
     """
     Returns the scatterplot of actural y in horizontal axis and residuals in vertical axis
-    Parameters: actural y(df.se), predicted y(df.se)
+    Parameters: actural y(df.se), predicted y(df.se), feature(str)
+    Prerequisite: call function evaluate_slr
     """
     residuals = actual - predicted
     plt.hlines(0, actual.min(), actual.max(), ls=':')
     plt.scatter(actual, residuals)
     plt.ylabel('residual ($y - \hat{y}$)')
     plt.xlabel('actual value ($y$)')
-    plt.title('Actual vs Residual')
+    plt.title(f'Actual vs Residual on {feature}')
     return plt.gca()
+
+# %%
+def plot_residuals_forall(target, features, df):
+    """
+    Returns the scatterplot of actural y in horizontal axis and residuals in vertical axis for multiple continuous features
+    Parameters: target var(str), interested features(list), data source(df)
+    Prerequisite: import functions evaluate_slr and plot_residues
+    """
+    for feature in features:
+        evaluate = evaluate_slr(target, feature, df)
+        actural = evaluate[target]
+        yhat = target + '_pred'
+        predicted = evaluate[yhat]
+        plot_residuals(actural, predicted, feature)
+        plt.show()
+
 # %%
 def slr_metrics(target, feature, df):
     """
