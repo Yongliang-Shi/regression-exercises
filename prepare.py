@@ -73,8 +73,12 @@ def prep_mall(df):
     train, validate = train_test_split(train_validate, test_size=.15, random_state=442)
     return train, validate, test
 
-# %% Scale telco data from `train, validate, test` that is wrangled from wrangle.py
-def scale_telco(train, validate, test, columns_to_scale):
+# %%
+def scale(train, validate, test, columns_to_scale):
+    """
+    Scale the columns using MinMaxScaler
+    Parameters: train(df), validate(df), test(df), columns_to_scale(list)
+    """
     new_column_names = [c + '_scaled' for c in columns_to_scale]
     scaler = sklearn.preprocessing.MinMaxScaler()
     scaler.fit(train[columns_to_scale])
