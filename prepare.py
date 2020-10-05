@@ -97,3 +97,15 @@ def scale(train, validate, test, columns_to_scale):
     ], axis=1)
     
     return train, validate, test
+
+# %%
+def encode_label(df, columns_to_encode):
+    """
+    Dummy coding of categorical varibales
+    Parameters: df, columns_to_encode(list)
+    """
+    obj_df = df[columns_to_encode]
+    dummy_df = pd.get_dummies(obj_df, dummy_na=False, drop_first=True)
+    df = pd.concat([df, dummy_df], axis=1)
+    df.drop(columns=columns_to_encode, inplace=True)
+    return df
