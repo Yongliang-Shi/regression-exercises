@@ -61,3 +61,15 @@ def get_mall_data():
         df = pd.read_sql("""select * from customers""", get_connection('mall_customers'))
         df.to_csv(filename)
         return df
+
+# %%
+def get_zillow_data(query, iteration):
+    zillow_csv = 'zillow_' + iteration + '.csv'
+    filename = zillow_csv
+    
+    if os.path.isfile(filename):
+        return pd.read_csv(filename, index_col=0)
+    else:
+        df = pd.read_sql(query, get_connection('zillow'))
+        df.to_csv(filename)
+        return df
